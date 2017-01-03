@@ -1,8 +1,9 @@
 #' @title Plot State
 #' @description Uses the geographic distribution data from the readEphData function to generate graphics for user coded states.
-#' @param region The region that will be plotted. The possible options are West, Mountain West, South, Midwest, Northeast, Mid Atlantic, and All.
-#' They should be coded as strings without spaces and with capital letter where normal. For example, /code{"NorthCarolina"}
-#' @return A barplot for the specified region. If the user codes /code{"Notable"}, the function will return notable states.
+#' @param state The state that will be plotted. The possible options are all 50 states, Guam, Puerto Rico,
+#' District of Columbia, and Notable. They should be coded as strings without spaces and with capital letters
+#' where normal. For example, /code{"NorthCarolina"}
+#' @return A barplot for the specified state. If the user codes /code{"Notable"}, the function will return notable states.
 #' @usage
 #' plot_state(state)
 #' @export
