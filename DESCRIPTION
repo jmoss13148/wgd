@@ -1,0 +1,21 @@
+Package: wgd
+Type: Package
+Title: Determines Statistics for the Geographic Distribution of Williams College
+    Students
+Version: 0.1.0
+Author: Jackson Moss [aut.cre]
+Maintainer: Jackson Moss <jm21@williams.edu>
+Description: This package loads data on the geographic distribution of Williams
+    College students from 2001 to 2016 from natively stored text files. It also
+    shows statistics and graphics across states and regions over the 15 year period.
+Depends:
+    R(>= 3.1.2)
+License: GPL-2
+LazyData: TRUE
+Imports:
+    stringr
+Suggests:
+    testthat,
+    knitr
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
