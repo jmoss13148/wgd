@@ -2,6 +2,7 @@
 #' @description Scan data on the United States geographic distribution of Williams Students from 2001 to 2016. It includes
 #' all 50 states, District of Columbia, Guam, and Puerto Rico. It excludes students from the Armed Forces Europe or
 #' Pacific and the Virgin Islands.
+#' @param dataset File that will be read and parsed. The options are williams20xx.txt where xx can be from 01 to 16.
 #' @return Matrix containing the number of students from each state or province from the user coded year. All years between
 #' #' 2001 and 2016 will be combined in later functions.
 #' @usage
