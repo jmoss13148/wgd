@@ -30,7 +30,7 @@ readEphData <- function(dataset) {
           state <- gsub("[0-9]", "", rm_spaces) # subset only states
           number <- gsub("[a-zA-Z]", "", rm_spaces) # subset only numbers
       total <- cbind(state, number)
-}
+} else { stop("Enter a valid text file: options are williams20xx.txt where xx can be 01 to 16") }
   # now have 2 x 2 matrix/frame with variable number of rows
 
   possible_sub <- grep("Armed|Islands", total) # exclude cases with Armed Forces or Virgin Islands
