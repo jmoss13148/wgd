@@ -28,7 +28,7 @@ plot_state <- function(state) {
   return(points(x = df.bar, y = data/2, col = "white"))
   }
   else if(state == "Notable") {
-    data <- as.matrix(dat[dat$State %in% c("California", "Florida", "Hawaii", "Massachusetts", "Maine"), 2:ncol(data)])
+    data <- as.matrix(dat[dat$State %in% c("California", "Florida", "Hawaii", "Massachusetts", "Maine"), 2:17])
         df.bar <- plot(data[1, ], ylim = c(0, 450), main = "Notable States", xlab = "Year", ylab = "Number of Students", axes = FALSE, bty = "L")
         v1 <- c(1, 6, 11, 16) # -> defines position of tick marks.
         v2 <- c("2001", "2006", "2011", "2016") # defines labels of tick marks.
