@@ -78,7 +78,7 @@ readEphData <- function(dataset) {
     full_data <- rbind(total, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12) # combine all possible rows
     full_data <- full_data[nchar(full_data[, 1]) > 1, ] # subset for rows with a valid state
     full_data <- full_data[order(full_data[, 1]), ] # sort by ascending state
-    full_data <- as.data.frame(full_data)
+    full_data <- as.data.frame(full_data, stringsAsFactors = FALSE)
     full_data
 }
 
