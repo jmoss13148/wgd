@@ -15,7 +15,7 @@
 
 summaryStatistic <- function(type){
 
-datasets <- c("names2004", "names2005", "names2006", "names2007", "names2008", "names2009", "names2010", "names2011", "names2012", "names2013", "names2014", "names2015", "names2016")
+datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
 
 ## for computing the most popular names
 dat <- data.frame(x <- 1:6)
@@ -65,7 +65,7 @@ abline(lm(num ~ as.numeric(names(num))))
 
 if(type == "least popular"){
 
-full <- rbind(readNameData("names2004"), readNameData("names2005"), readNameData("names2006"), readNameData("names2007"), readNameData("names2008"), readNameData("names2009"), readNameData("names2010"), readNameData("names2011"), readNameData("names2011"), readNameData("names2012"), readNameData("names2013"), readNameData("names2014"), readNameData("names2015"), readNameData("names2016"))
+full <- rbind(readNameData("names2004.txt"), readNameData("names2005.txt"), readNameData("names2006.txt"), readNameData("names2007.txt"), readNameData("names2008.txt"), readNameData("names2009.txt"), readNameData("names2010.txt"), readNameData("names2011.txt"), readNameData("names2011.txt"), readNameData("names2012.txt"), readNameData("names2013.txt"), readNameData("names2014.txt"), readNameData("names2015.txt"), readNameData("names2016.txt"))
 full <- full[, 1]
 tab <- sort(table(full))
 one <- tab[tab == 1] ## first names that have only occured one time since 2004
