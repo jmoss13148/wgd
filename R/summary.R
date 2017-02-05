@@ -1,4 +1,4 @@
-#' @title Summary
+#' @title Summary Statistic
 #' @description Uses the data from the readNameData() function to compute relavent summary statistics
 #' @param type The type of statistics to be computed. The options are "popular", "most popular", "name length",
 #' "name length plot", and "least popular."
@@ -10,10 +10,10 @@
 #' the form of a scatterplot. If the user codes least popular, the function returns a random sample of first names that
 #' have only occurred at Williams one time since 2004.
 #' @usage
-#' summary(type)
+#' summaryStatistic(type)
 #' @export
 
-summary <- function(type){
+summaryStatistic <- function(type){
 
 datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
 
