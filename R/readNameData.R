@@ -8,7 +8,7 @@
 
 readNameData <- function(dataset){
 
-datasets <- c("names2004", "names2005", "names2006", "names2007", "names2008", "names2009", "names2010", "names2011", "names2012", "names2013", "names2014", "names2015", "names2016")
+datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
 if(dataset %in% datasets){
 data <- readLines(system.file("extdata", dataset, package = "wgd"), warn = FALSE)
 
