@@ -1,0 +1,195 @@
+---
+title: "A Brief Analysis of the first names of Williams College Gradutes 2004-2016"
+output: pdf_document
+---
+
+```{r, echo = FALSE}
+#' @title Summary Statistic
+#' @description Uses the data from the readNameData() function to compute relavent summary statistics
+#' @param type The type of statistics to be computed. The options are "popular", "most popular", "name length",
+#' "name length plot", and "least popular."
+#' @return If the user codes popular, the function returns a dataframe with the six most popular names
+#' over the past 13 years. If the user codes most popular, the function returns a dataframe reporting all
+#' names that have been in the top six over the past 13 years, and how many times each name has been in the top six.
+#' If the user codes name length, the function returns a dataframe reporting the average first name length of the
+#' graduating class for each year. If the user codes name length plot, the function reports name length data in
+#' the form of a scatterplot. If the user codes least popular, the function returns a random sample of first names that
+#' have only occurred at Williams one time since 2004.
+#' @usage
+#' summaryStatistic(type)
+#' @export
+
+summaryStatistic <- function(type){
+
+datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
+
+## for computing the most popular names
+dat <- data.frame(x <- 1:6)
+for(i in 1:length(datasets)){
+  popular <- as.data.frame(tail(sort(table(readNameData(datasets[i])[, 1])))) ## subset for most popular names of certain year
+  popular <- popular[order(popular$Var1, decreasing = TRUE), ]
+  dat <- cbind(dat, popular)
+}
+total <- dat[, seq(2, ncol(dat), 2)] ## dataframe with 6 most popular names for each year
+names(total) <- c("2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")
+
+## for computing the average first name length
+num <- numeric(length(datasets))
+for(i in 1:length(datasets)){
+  num[i] <- mean(readNameData(datasets[i])[, 2]) ## average name length for each graduating class year
+}
+names(num) <- c("2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016")
+
+if(type %in% c("popular", "most popular", "name length", "name length plot", "least popular")){
+
+
+if(type == "popular"){
+return(total)
+}
+
+if(type == "most popular"){
+num <- character()
+for(i in 1:ncol(total)){
+  names <- as.character(total[, i])
+  num <- c(num, names) ## bind together most popular names from each year
+}
+sorted <- sort(table(num)) ## gather the information in a table
+ordered <- as.data.frame(sorted)
+ordered <- ordered[order(ordered[, 2], decreasing = TRUE), ]
+names(ordered) <- c("Name", "# times in top 6")
+return(ordered) ## dataframe containing names that have been in the top six, and how many times each name is been in the top six
+}
+
+if(type == "name length"){
+return(num)
+}
+
+if(type == "name length plot"){
+plot(names(num), num, main = "First Name Length", ylab = "Number of Characters", xlab = "Year", col = "purple", pch = 16)
+abline(lm(num ~ as.numeric(names(num))))
+}
+
+if(type == "least popular"){
+
+full <- rbind(readNameData("names2004.txt"), readNameData("names2005.txt"), readNameData("names2006.txt"), readNameData("names2007.txt"), readNameData("names2008.txt"), readNameData("names2009.txt"), readNameData("names2010.txt"), readNameData("names2011.txt"), readNameData("names2011.txt"), readNameData("names2012.txt"), readNameData("names2013.txt"), readNameData("names2014.txt"), readNameData("names2015.txt"), readNameData("names2016.txt"))
+full <- full[, 1]
+tab <- sort(table(full))
+one <- tab[tab == 1] ## first names that have only occured one time since 2004
+leastPopular <- sample(one, 100) ## random sample of 100 names that have only occured one time
+return(leastPopular)
+}
+}
+else { stop("Please enter a correct summary type. The options are popular, most popular, name length, name length plot, and least popular") }
+}
+```
+
+
+```{r, echo = FALSE}
+readNameData <- function(dataset){
+
+datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
+if(dataset %in% datasets){
+data <- readLines(system.file("extdata", dataset, package = "wgd"), warn = FALSE)
+
+data <- gsub( " .*$", "", data) ## subset for characters before the first space
+data <- gsub("[^[:alnum:] ]", "", data)
+## remove instances where subject gets carried over to the next line
+rm <- grep("Science|Bachelor|Major|Spanish|Degrees|in|Mathematics|Biology|Astrophysics|Physics|Economics|and|Studies|Psychology|Philosophy|Religion|honors|Computer|Geosciences|Chinese|History|Comparative|Neuroscience|Chemistry|English|Economy|Art|AfricanAmerican|American|Asian|Biochemistry|Cognitive|Critical|Environmental|German|Jewish|LatinAmerican|Leadership|Legal|Linguistics|Materials|Music|Performance|Romance|Russian|Women's|Womens", data)
+data <- data[-rm]
+data1 = gsub("[[:digit:]]", "", data)
+data1 <- data[nchar(data1) > 0] ## remove possible instances of extra lines
+
+# create vector with first name length
+len <- numeric(length(data1))
+for(i in 1:length(data1)) {
+  len[i] <- nchar(data1[i])
+}
+
+total <- as.data.frame(cbind(data1, len), stringsAsFactors = FALSE)
+total[, 2] <- as.numeric(total[, 2])
+names(total) <- c("First Name", "Length")
+return(total)
+}
+else { stop("Enter a correct dataset")}
+}
+```
+
+## Introdution 
+
+The **wgd** package uses publically available data from the Williams College Registrar to load and determine statistics about the first names of Williams College graduates from 2004 to 2016. 
+
+## Data 
+
+The raw data used for this analysis is in the form of PDFs posted to the website of the Office of the Registrar of Williams College. The data was converted into text files using PDFelement, an online PDF to text editor. After the data is read into R, we subset for the first name by subsetting for characters before the first space occurs. Next, non alphanumeric characters are removed to clean up any unwanted characters. In many cases, a "+" or other characters appear before the name of a student to indicate a designation or other acheivement. 
+
+```{r, eval = FALSE}
+data <- gsub( " .*$", "", data) ## subset for characters before the first space
+data <- gsub("[^[:alnum:] ]", "", data)
+```
+
+In many cases, the lines of the original data do not get preserved when copying into the text files. For example, a line might say "Physics" referring to a student who graduated with honors in Physics. We must thus remove cases where the data does not reflect a name, but a subject or designation. We subset for elements that contain a subject name and then remove those elements. 
+
+```{r, eval = FALSE}
+rm <- grep("Science|Bachelor|Major|Spanish|Degrees", data) ## many more included in actual function
+data <- data[-rm]
+```
+
+Next, we create a vector containing the number of characters of each name. 
+
+```{r, eval = FALSE}
+len <- numeric(length(data1))
+for(i in 1:length(data1)) {
+  len[i] <- nchar(data1[i])
+}
+```
+
+This vector is subsequently binded to the vector of names to create a dataframe. 
+
+```{r}
+head(readNameData("names2006.txt"))
+```
+
+**Use readNameData**
+
+The information in the locally stored text files can be loaded and parsed using the readEphData function. The function has one argument and can be used as follows. 
+
+```{r, eval = FALSE}
+readNameData("dataset")
+```
+
+**Use summaryStatistic**
+
+The function summaryStatistic() uses the data from the readNameData() function to create summary statistics about the first names of Williams College graduates from 2004 to 2016. The function can be used as follows. 
+
+```{r, eval = FALSE}
+summaryStatistic("type")
+```
+
+The options for type are "popular", "most popular", "name length", "name length plot", and "least popular." If the user codes popular, the function returns a dataframe with the six most popular names
+over the past 13 years. If the user codes most popular, the function returns a dataframe reporting all names that have been in the top six over the past 13 years, and how many times each name has been in the top six. If the user codes name length, the function returns a dataframe reporting the average first name length of the graduating class for each year. If the user codes name length plot, the function reports name length data in the form of a scatterplot. If the user codes least popular, the function returns a random sample of 100 first names that have occurred only one time at Williamssince 2004. 
+
+```{r}
+summaryStatistic("most popular")
+```
+
+We see there are 22 unique names that have been in the top six most popular for Williams College graduating classes between the years of 2004 and 2016. Elizabeth has been in the top six 8 times, and Daniel, Matthew, and Michael, have been in the top six 7 times.  
+
+```{r, fig.width = 4, fig.height = 3.5}
+summaryStatistic("name length plot")
+```
+
+We see that the average first name length has been decreasing over the past 13 years. It would be interesting to compare this trend to the overal trend in the United States. 
+
+```{r}
+head(summaryStatistic("least popular"))
+```
+
+This call returns names that have only occured one time in Williams College graduating classes from 2004 to 2016. These names could be odd spellings of more commmon names, or just uncommon names. For example, Meaghan is an uncommon spelling for a more common name, while Hiteshwar is an uncommon name.
+
+## Conclusion 
+
+The package wgd allows for easy reading and analysis for first name data of Williams College Graduates between 2004 and 2016. The analysis is limited becuase the package only parses for the first name of the students. This leaves out important information like middle and last name, major, and type of degree earned. Parsing these types of data in generality would allow a much deeper analysis of the data and many more questions to be answered. Regardless, the readNameData and summaryStatistic functions provide a good start for analyzing the first name data of Williams College Graduates between 2004 and 2016. 
+
+
+
+
