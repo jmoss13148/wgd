@@ -58,6 +58,16 @@ if(type == "name length plot"){
 plot(names(num), num, main = "First Name Length", ylab = "Number of Characters", xlab = "Year", col = "purple", pch = 16)
 abline(lm(num ~ as.numeric(names(num))))
 }
+  
+if(type == "least popular"){
+
+full <- rbind(readNameData("names2004"), readNameData("names2005"), readNameData("names2006"), readNameData("names2007"), readNameData("names2008"), readNameData("names2009"), readNameData("names2010"), readNameData("names2011"), readNameData("names2011"), readNameData("names2012"), readNameData("names2013"), readNameData("names2014"), readNameData("names2015"), readNameData("names2016"))
+full <- full[, 1]
+tab <- sort(table(full))
+one <- tab[tab == 1]
+leastPopular <- sample(one, 100)
+return(leastPopular)
+}
 }
 
 
