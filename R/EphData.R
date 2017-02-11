@@ -16,7 +16,10 @@
 #' @export
 
 EphData <- function(dataset){
-
+ 
+library(tidyr)
+library(reshape2)
+  
 datasets <- c("names2004.txt", "names2005.txt", "names2006.txt", "names2007.txt", "names2008.txt", "names2009.txt", "names2010.txt", "names2011.txt", "names2012.txt", "names2013.txt", "names2014.txt", "names2015.txt", "names2016.txt")
 if(dataset %in% datasets){
 
