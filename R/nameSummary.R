@@ -95,8 +95,3 @@ else { stop("Please enter a correct summary type. The options are honors, length
 }
 
 
-number.asian <- nrow(asian.data)
-prop.asian.est <- number.asian / (nrow(data) * 0.17)
-
-
-
