@@ -22,7 +22,7 @@
 
 nameSummary <- function(type){
 
-asian.names <- readLines("asiannames.txt")
+asian.names <- readLines(system.file("extdata", "asiannames.txt", package = "wgd"), warn = FALSE)
 
 data <- rbind(EphData("names2004.txt"), EphData("names2005.txt"), EphData("names2006.txt"), EphData("names2007.txt"), EphData("names2008.txt"), EphData("names2009.txt"), EphData("names2010.txt"), EphData("names2011.txt"), EphData("names2012.txt"), EphData("names2013.txt"), EphData("names2014.txt"), EphData("names2015.txt"), EphData("names2016.txt"))
 # create a column to show if student is Asian or not
